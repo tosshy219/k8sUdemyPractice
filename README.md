@@ -23,8 +23,17 @@ kubectl apply -f mysql-deployment.yaml -n database
 kubectl exec -n database -it 動作しているポッド名 -- mysql -uroot -ppassword
 ```
 
+// サービスを作成するyamlを作成
+```
+kubectl create service サービスのタイプ mysql --tcp=3306 --dry-run=client -o yaml > mysql-service.yaml
+```
 
-// メモ
+// yamlからサービスを名前空間databaseに作成
+```
+kubectl apply -f mysql-servicel.yaml -n database
+```
+
+☆  メモ
 * 作成対象のapiVersionを確認する方法
 ```
 kubectl api-resources | grep deployment
