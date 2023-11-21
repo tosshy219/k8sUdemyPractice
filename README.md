@@ -33,6 +33,27 @@ kubectl create service サービスのタイプ mysql --tcp=3306 --dry-run=clien
 kubectl apply -f mysql-servicel.yaml -n database
 ```
 
+// sample-appのdeployment作成yamlファイル作成
+```
+kubectl create deployment sample-app --image=ghcr.io/nakamasamoto/fastapi-sample:v1.0 --dry-run=client -o yaml > sample-app-deployment.yaml
+```
+
+// env.txtを利用しconfigmapを作成するyamlファイルを作成
+```
+kubectl create cm sample-app --from-env-file=env.txt --dry-run=client -o yaml > sample-app-configmap.yaml
+```
+
+// mysqlパスワードを格納したsecretを作成するyamlファイルを作成
+```
+kubectl create secret generic sample-app --from-literal=MYSQL_PASSWORD=password --dry-run=client -o yaml > sample-app-secret.yaml
+```
+
+// 特定のnamespaceにまとめてyamlファイルからリソース作成
+```
+kubectl apply -f sample-app-deployment.yaml,sample-app-configmap.yaml,sample-app-secret.yaml -n $namespace
+```
+
+
 ☆  メモ
 * 作成対象のapiVersionを確認する方法
 ```
